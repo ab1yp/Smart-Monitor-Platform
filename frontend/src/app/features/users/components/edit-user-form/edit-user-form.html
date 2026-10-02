@@ -1,0 +1,107 @@
+<div class="flex min-h-screen w-full items-start justify-center bg-background px-4 py-10 sm:px-6">
+  <div class="w-full max-w-lg">
+    @if (loading) {
+      <div class="rounded-2xl border border-border bg-surface p-6 shadow-sm">
+        <app-loading class="flex h-64 w-full items-center justify-center"></app-loading>
+      </div>
+    } @else {
+      <div class="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
+        <div class="flex items-start gap-3 border-b border-border bg-surface px-6 py-5">
+          <div
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-lg text-brand"
+          >
+            ✎
+          </div>
+          <div class="min-w-0">
+            <h2 class="text-base font-semibold text-text">Edit user</h2>
+            <p class="mt-0.5 text-xs text-text-muted">
+              Update the name and description of this user.
+            </p>
+          </div>
+        </div>
+        <form [formGroup]="userForm" (ngSubmit)="updateUser()" class="space-y-5 p-6">
+          <div>
+            <label class="mb-2 block text-sm font-medium text-text"> User Email </label>
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="e.g. Living Room AC"
+              class="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-text placeholder:text-text-muted outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+            />
+          </div>
+          <div>
+            <label class="mb-2 block text-sm font-medium text-text"> User name </label>
+            <input
+              type="text"
+              formControlName="name"
+              placeholder="e.g. Living Room AC"
+              class="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-text placeholder:text-text-muted outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+            />
+            @if (userForm.get('name')?.invalid && userForm.get('name')?.touched) {
+              <p class="mt-2 flex items-center gap-1.5 text-xs text-danger">
+                <svg
+                  viewBox="0 0 24 24"
+                  class="h-3.5 w-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 8v4M12 16h.01" />
+                </svg>
+                User name is required.
+              </p>
+            }
+          </div>
+          <div>
+            <label class="mb-2 block text-sm font-medium text-text"> About </label>
+            <textarea
+              rows="4"
+              formControlName="about"
+              placeholder="about you (who?, age, skills)"
+              class="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-text placeholder:text-text-muted outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+            ></textarea>
+          </div>
+          <div class="flex items-center justify-between gap-3 border-t border-border pt-5">
+            <button
+              type="button"
+              (click)="goBack()"
+              class="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-5 py-2.5 text-sm font-medium text-text transition hover:bg-surface-hover"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                class="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+              Back
+            </button>
+            <button
+              type="submit"
+              [disabled]="
+                userForm.invalid ||
+                isSubmitting ||
+                (userData.name == userForm.get('name')?.value &&
+                  userData.about == userForm.get('about')?.value)
+              "
+              class="inline-flex items-center gap-2 rounded-xl bg-brand px-6 py-2.5 text-sm font-semibold text-background shadow-sm transition hover:bg-brand-hover disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              @if (!isSubmitting) {
+                Update user
+              } @else {
+                Updating…
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,126 @@
+@if (!openForm) {
+  <div class="space-y-8 select-none cursor-default">
+    <section class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h2 class="text-base font-semibold text-text">All Units</h2>
+        <p class="mt-0.5 text-xs text-text-muted">{{ devicesLength }} device(s)</p>
+      </div>
+      <div class="flex space-x-6">
+        <div class="relative w-full sm:w-72">
+          <svg
+            viewBox="0 0 24 24"
+            class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="M21 21l-4.3-4.3" />
+          </svg>
+          <input
+            [(ngModel)]="searchValue"
+            (input)="search()"
+            type="text"
+            placeholder="Search devices…"
+            class="h-10 w-full rounded-lg border border-border bg-surface pl-9 pr-3 text-sm text-text placeholder:text-text-muted transition focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+          />
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            [routerLink]="['/ml/createDevice']"
+            type="button"
+            class="rounded-lg bg-brand px-4 py-2.5 text-sm font-medium text-background shadow-sm transition hover:bg-brand-hover"
+          >
+            + Create Device
+          </button>
+        </div>
+      </div>
+    </section>
+    @if (filteredDevices.length) {
+      <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        @for (device of filteredDevices; track device.device._id) {
+          <article
+            [routerLink]="['/dl', device.device._id, 'dashboard']"
+            class="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-border bg-surface p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-brand/30 hover:shadow-md"
+          >
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex min-w-0 items-center gap-3">
+                <div
+                  class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand/10 text-lg font-bold uppercase text-brand transition duration-200 group-hover:bg-brand group-hover:text-background"
+                >
+                  {{ device.device.name.charAt(0) || '❄' }}
+                </div>
+
+                <div class="min-w-0">
+                  <div class="flex items-center gap-2">
+                    <span
+                      class="h-2 w-2 shrink-0 rounded-full transition-colors"
+                      [ngClass]="device?.status.online ? 'bg-success' : 'bg-text-muted'"
+                    ></span>
+                    <h3 class="truncate text-sm font-semibold text-text">{{ device?.device.name }}</h3>
+                  </div>
+                  <p class="mt-1 truncate font-mono text-[11px] text-text-muted">
+                    ID {{ device?.device._id }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            @if (device.device.description) {
+              <p class="mt-4 line-clamp-3 text-sm leading-6 text-text-muted">
+                {{ device.device.description }}
+              </p>
+            } @else {
+              <p class="mt-4 text-sm italic text-text-muted">No description provided.</p>
+            }
+
+            <div class="mt-auto flex items-center justify-between border-t border-border pt-3">
+              <span class="text-[11px] text-text-muted">
+                Created {{ device.device.createdAt | date: 'MMM d, y' }}
+              </span>
+              <span
+                class="inline-flex items-center gap-1 text-[11px] font-medium text-brand opacity-0 transition group-hover:opacity-100"
+              >
+                Open
+                <svg
+                  viewBox="0 0 24 24"
+                  class="h-3 w-3"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </span>
+            </div>
+          </article>
+        }
+      </section>
+    } @else {
+      <section
+        class="rounded-2xl border border-dashed border-border bg-surface/60 p-12 text-center"
+      >
+        <div
+          class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-surface-hover text-lg text-text-muted"
+        >
+          ⓘ
+        </div>
+        <h3 class="mt-4 text-base font-semibold text-text">No devices found</h3>
+        <p class="mt-1 text-sm text-text-muted">
+          Try a different search term, or create a new device.device.
+        </p>
+        <button
+          [routerLink]="['/ml/createDevice']"
+          type="button"
+          class="mt-5 rounded-lg bg-brand px-5 py-2.5 text-sm font-medium text-background transition hover:bg-brand-hover"
+        >
+          + Create Device
+        </button>
+      </section>
+    }
+  </div>
+}

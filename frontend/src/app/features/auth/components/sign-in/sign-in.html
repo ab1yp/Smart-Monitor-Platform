@@ -1,0 +1,139 @@
+@if (!ChangePasswordForm) {
+  <div>
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <h2 class="mt-10 text-center text-2xl font-bold tracking-tight text-text">
+        Sign in to your account
+      </h2>
+    </div>
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <form [formGroup]="formData" (ngSubmit)="submitForm()" class="space-y-6">
+        <div>
+          <label for="email" class="block text-sm font-medium text-text"> Email address </label>
+          <div class="mt-2">
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+              class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-text placeholder:text-text-muted focus:border-brand focus:outline-none"
+            />
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="password" class="block text-sm font-medium text-text"> Password </label>
+            <button
+              type="button"
+              (click)="ChangePasswordForm = true"
+              class="text-sm font-semibold text-brand hover:text-brand-hover"
+            >
+              Forgot password?
+            </button>
+          </div>
+          <div class="mt-2">
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              autocomplete="current-password"
+              class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-text placeholder:text-text-muted focus:border-brand focus:outline-none"
+            />
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="flex w-full justify-center rounded-md bg-brand px-3 py-2 font-semibold text-background transition hover:bg-brand-hover"
+        >
+          Sign In
+        </button>
+      </form>
+      <p class="mt-8 text-center text-sm text-text-muted">
+        Not a member?
+        <a routerLink="/al/signup" class="font-semibold text-brand hover:text-brand-hover">
+          Create Account Now!
+        </a>
+      </p>
+    </div>
+  </div>
+} @else {
+  <div class="flex min-h-[80vh] items-center justify-center">
+    <div class="w-full max-w-md rounded-2xl border border-border bg-surface p-8 shadow-sm">
+      @if (!mailSent) {
+        <div class="mb-8 text-center">
+          <h1 class="text-2xl font-bold text-text">Forgot Password</h1>
+          <p class="mt-2 text-sm text-text-muted">
+            Enter your email address and we'll send you a password reset link.
+          </p>
+        </div>
+        <form
+          [formGroup]="SendChangePassformData"
+          (ngSubmit)="SendChangePassform()"
+          class="space-y-6"
+        >
+          <div>
+            <label for="reset-email" class="mb-2 block text-sm font-medium text-text">
+              Email Address
+            </label>
+            <input
+              id="reset-email"
+              type="email"
+              formControlName="email"
+              [disabled]="isLoading"
+              autocomplete="email"
+              placeholder="Enter your email"
+              class="w-full rounded-lg border border-border bg-background px-4 py-3 text-text placeholder:text-text-muted outline-none transition focus:border-brand disabled:cursor-not-allowed disabled:opacity-60"
+            />
+          </div>
+          <button
+            type="submit"
+            [disabled]="isLoading"
+            class="w-full rounded-lg bg-brand px-4 py-3 font-semibold text-background transition hover:bg-brand-hover disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            @if (!isLoading) {
+              Send Reset Link
+            } @else {
+              Sending...
+            }
+          </button>
+          <button
+            type="button"
+            [disabled]="isLoading"
+            (click)="backToSignIn()"
+            class="w-full rounded-lg border border-border px-4 py-3 font-medium text-text transition hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            Back to Sign In
+          </button>
+        </form>
+      } @else {
+        <div class="text-center">
+          <div
+            class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-success/10"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8 text-success"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-text">Email Sent Successfully</h2>
+          <p class="mt-3 text-sm leading-6 text-text-muted">
+            We've sent a password reset link to your email address. Please check your inbox (and
+            spam folder if needed), then follow the instructions to reset your password.
+          </p>
+          <button
+            type="button"
+            (click)="backToSignIn()"
+            class="mt-8 w-full rounded-lg bg-brand px-4 py-3 font-semibold text-background transition hover:bg-brand-hover"
+          >
+            Back to Sign In
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+}

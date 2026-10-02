@@ -1,0 +1,68 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+  <div
+    class="w-full max-w-5xl overflow-hidden rounded-2xl border border-border bg-background shadow-2xl"
+  >
+    <div class="flex items-center justify-between border-b border-border px-6 py-4">
+      <div>
+        <h2 class="text-lg font-semibold text-text">Users</h2>
+        <p class="text-sm text-text-muted">Manage and view users</p>
+      </div>
+    </div>
+    <div class="max-h-[70vh] overflow-y-auto p-6">
+      <div class="mb-6">
+        <input
+          [(ngModel)]="searchValue"
+          (input)="loadUsers()"
+          placeholder="Search user name or email..."
+          class="w-full rounded-lg border border-border bg-background px-4 py-3 text-text placeholder:text-text-muted outline-none transition focus:border-brand focus:bg-surface-hover focus:ring-2 focus:ring-brand/20"
+        />
+      </div>
+      @if (loading) {
+        <div class="flex min-h-75 items-center justify-center">
+          <app-loading></app-loading>
+        </div>
+      } @else {
+        @if (filteredUsers.length > 0) {
+          <div class="overflow-hidden rounded-xl border border-border">
+            <div class="overflow-x-auto">
+              <table class="min-w-full">
+                <thead class="border-b border-border bg-surface">
+                  <tr class="text-left text-sm uppercase tracking-wider text-text-muted">
+                    <th class="px-6 py-4">Name</th>
+                    <th class="px-6 py-4">Email</th>
+                    <th class="px-6 py-4">Created</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (user of filteredUsers; track user._id) {
+                    <tr
+                      class="border-b border-border transition odd:bg-surface hover:bg-surface-hover"
+                    >
+                      <td class="px-6 py-4 text-text">{{ user.name }}</td>
+                      <td class="px-6 py-4 text-text-muted">{{ user.email }}</td>
+                      <td class="px-6 py-4 text-sm text-text-muted">
+                        {{ user.createdAt | date: 'MMM d, y' }}
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        } @else {
+          <div class="flex min-h-75 items-center justify-center">
+            <p class="text-text-muted">No users found.</p>
+          </div>
+        }
+      }
+    </div>
+    <div class="flex justify-end border-t border-border px-6 py-4">
+      <button
+        (click)="closeEvent()"
+        class="rounded-lg border border-border px-4 py-2 text-text transition hover:bg-surface-hover"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</div>

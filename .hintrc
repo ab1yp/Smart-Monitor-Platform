@@ -1,0 +1,26 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "typescript-config/is-valid": "off",
+    "axe/forms": "off",
+    "button-type": "off",
+    "axe/name-role-value": "off",
+    "no-inline-styles": "off",
+    "axe/structure": [
+      "default",
+      {
+        "list": "off"
+      }
+    ],
+    "axe/aria": [
+      "default",
+      {
+        "aria-valid-attr-value": "off",
+        "aria-required-children": "off",
+        "aria-required-parent": "off"
+      }
+    ]
+  }
+}

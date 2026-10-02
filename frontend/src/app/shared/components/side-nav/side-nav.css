@@ -1,0 +1,70 @@
+/* =========================================================
+   Side nav — animations, scrollbar, active indicator
+   ========================================================= */
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+/* Smooth scrollbar (WebKit + Firefox) */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.scrollbar-thin::-webkit-scrollbar        { width: 6px; }
+.scrollbar-thin::-webkit-scrollbar-track  { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb  {
+  background: var(--border);
+  border-radius: 9999px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--border) 70%, var(--text-muted));
+}
+
+/* Active route indicator (left bar) */
+.nav-active {
+  position: relative;
+}
+.nav-active::before {
+  content: '';
+  position: absolute;
+  left: -12px;                     /* sits on the padding edge */
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20px;
+  width: 3px;
+  border-radius: 0 9999px 9999px 0;
+  background: var(--brand);
+  animation: indicator-in 220ms ease-out;
+}
+
+@keyframes indicator-in {
+  from { height: 0;   opacity: 0; }
+  to   { height: 20px; opacity: 1; }
+}
+
+/* Entrance animations */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-fade-in { animation: fade-in 180ms ease-out; }
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-up { animation: slide-up 160ms ease-out; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-slide-up,
+  .nav-active::before {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.001ms !important;
+  }
+}

@@ -1,0 +1,35 @@
+<section class="rounded-2xl border border-border bg-surface p-6 shadow-sm">
+  <div class="mb-6 flex items-start justify-between gap-3">
+    <div>
+      <h2 class="text-base font-semibold text-text">Preferences</h2>
+      <p class="mt-0.5 text-xs text-text-muted">
+        Personalize your workspace, theme, and account behavior.
+      </p>
+    </div>
+    <div
+      class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-lg text-brand"
+    >
+      🌣
+    </div>
+  </div>
+
+  <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+    <button
+      type="button"
+      (click)="toggleTheme()"
+      class="group flex items-start gap-3 rounded-xl border border-border bg-background p-4 text-left transition hover:-translate-y-0.5 hover:border-brand/30 hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+    >
+      <span
+        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand"
+      >
+        ☽
+      </span>
+      <span class="min-w-0">
+        <span class="block text-sm font-semibold text-text">Theme</span>
+        <span class="mt-0.5 block text-xs text-text-muted">
+          Switch between light and dark mode.
+        </span>
+      </span>
+    </button>
+  </div>
+</section>

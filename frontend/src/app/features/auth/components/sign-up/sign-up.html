@@ -1,0 +1,68 @@
+<div class="sm:mx-auto sm:w-full sm:max-w-sm">
+  <h2 class="mt-10 text-center text-2xl font-bold tracking-tight text-text">Sign Up</h2>
+</div>
+<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+  <form (ngSubmit)="submitForm()" [formGroup]="formData" class="space-y-6">
+    <div>
+      <label for="name" class="block text-sm font-medium text-text"> Full Name </label>
+
+      <div class="mt-2">
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          autocomplete="name"
+          class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-text placeholder:text-text-muted focus:border-brand focus:outline-none"
+        />
+      </div>
+    </div>
+    <div>
+      <label for="email" class="block text-sm font-medium text-text"> Email address </label>
+      <div class="mt-2">
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-text placeholder:text-text-muted focus:border-brand focus:outline-none"
+        />
+      </div>
+    </div>
+    <div>
+      <label for="password" class="block text-sm font-medium text-text"> Password </label>
+      <div class="mt-2">
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          autocomplete="new-password"
+          class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-text placeholder:text-text-muted focus:border-brand focus:outline-none"
+        />
+      </div>
+    </div>
+    <div>
+      <label for="cPassword" class="block text-sm font-medium text-text"> Confirm Password </label>
+      <div class="mt-2">
+        <input
+          id="cPassword"
+          type="password"
+          formControlName="cPassword"
+          autocomplete="new-password"
+          class="block w-full rounded-md border border-border bg-surface px-3 py-2 text-text placeholder:text-text-muted focus:border-brand focus:outline-none"
+        />
+      </div>
+    </div>
+    <button
+      type="submit"
+      class="flex w-full justify-center rounded-md bg-brand px-3 py-2 font-semibold text-background transition-colors hover:bg-brand-hover"
+    >
+      Sign Up
+    </button>
+  </form>
+  <p class="mt-8 text-center text-sm text-text-muted">
+    Already have an account?
+    <button [routerLink]="['/al/signin']" class="font-semibold text-brand hover:text-brand-hover">
+      Sign In
+    </button>
+  </p>
+</div>

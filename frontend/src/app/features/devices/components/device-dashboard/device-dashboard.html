@@ -1,0 +1,401 @@
+@if (loading) {
+  <app-loading class="flex h-screen w-full items-center justify-center"></app-loading>
+} @else if (!deviceData) {
+  <div class="flex min-h-[60vh] items-center justify-center">
+    <div class="text-center">
+      <div
+        class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-danger/10 text-danger"
+      >
+        ⚠
+      </div>
+      <h2 class="mt-4 text-lg font-semibold text-text">Device not found</h2>
+      <p class="mt-1 text-sm text-text-muted">We couldn't load this device.</p>
+      <button
+        type="button"
+        (click)="router.navigate(['/ml/devices'])"
+        class="mt-5 rounded-lg border border-border bg-surface px-4 py-2 text-sm font-medium text-text transition hover:bg-surface-hover"
+      >
+        Back to devices
+      </button>
+    </div>
+  </div>
+} @else {
+  <div class="space-y-8 select-none">
+    <section class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div class="min-w-0">
+        <div class="flex flex-wrap items-center gap-3">
+          <h1 class="truncate text-3xl font-bold tracking-tight text-text">
+            {{ deviceData.device?.name || 'Device Dashboard' }}
+          </h1>
+          @if (deviceData?.device?.online) {
+            <span
+              class="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-2.5 py-1 text-[11px] font-semibold text-success"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-success"></span> Online
+            </span>
+          } @else {
+            <span
+              class="inline-flex items-center gap-1.5 rounded-full bg-surface-hover px-2.5 py-1 text-[11px] font-semibold text-text-muted"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-text-muted"></span> Offline
+            </span>
+          }
+        </div>
+        <p class="mt-2 max-w-2xl text-sm text-text-muted sm:text-base">
+          {{ deviceData.device?.location || 'No location' }} <span class="mx-1">·</span> ID
+          {{ deviceId }}
+        </p>
+      </div>
+      @if (
+        deviceData.currentUserMember?.role === 'admin' ||
+        deviceData.currentUserMember?.role === 'owner'
+      ) {
+        <button
+          type="button"
+          (click)="openInviteUsers()"
+          class="w-full rounded-lg border border-brand/20 bg-surface px-4 py-2.5 text-sm font-medium text-brand transition hover:bg-brand hover:text-white sm:w-auto"
+        >
+          Invite Members
+        </button>
+      }
+    </section>
+    <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div class="rounded-2xl border border-border bg-surface p-5 shadow-sm">
+        <p class="text-sm font-medium text-text-muted">Model</p>
+        <p class="mt-2 truncate text-lg font-semibold text-text">
+          {{ deviceData.device?.model || '—' }}
+        </p>
+      </div>
+      <div class="rounded-2xl border border-border bg-surface p-5 shadow-sm">
+        <p class="text-sm font-medium text-text-muted">Serial number</p>
+        <p class="mt-2 truncate text-lg font-semibold text-text">
+          {{ deviceData.device?.serialNumber || '—' }}
+        </p>
+      </div>
+      <div class="rounded-2xl border border-border bg-surface p-5 shadow-sm">
+        <p class="text-sm font-medium text-text-muted">Createed</p>
+        <p class="mt-2 text-lg font-semibold capitalize text-text">
+          {{ deviceData.device?.createdAt | date: 'MMM d, y' }}
+        </p>
+      </div>
+      <div class="rounded-2xl border border-border bg-surface p-5 shadow-sm">
+        <p class="text-sm font-medium text-text-muted">Your role</p>
+        <p class="mt-2 text-lg font-semibold capitalize text-text">
+          {{ deviceData.currentUserMember?.role || '—' }}
+        </p>
+      </div>
+    </section>
+    <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div
+        class="rounded-2xl border border-border bg-surface p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md"
+      >
+        <div class="flex items-start justify-between">
+          <div>
+            <p class="text-sm font-medium text-text-muted">Room temperature</p>
+            <h3 class="mt-3 text-3xl font-bold tracking-tight text-text">
+              @if (deviceData.status?.roomTemperature != null) {
+                {{ deviceData.status.roomTemperature | number: '1.1-1' }}
+                <span class="ml-1 text-lg font-medium text-text-muted"> °C </span>
+              } @else {
+                —
+              }
+            </h3>
+          </div>
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-lg text-brand"
+          >
+            🌡
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-text-muted">
+          Setpoint:
+          @if (deviceData.status?.setpoint != null) {
+            {{ deviceData.status.setpoint | number: '1.0-1' }} °C
+          } @else {
+            —
+          }
+        </p>
+      </div>
+      <div
+        class="rounded-2xl border border-border bg-surface p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md"
+      >
+        <div class="flex items-start justify-between">
+          <div>
+            <p class="text-sm font-medium text-text-muted">Compressor</p>
+            <h3
+              class="mt-3 text-3xl font-bold tracking-tight"
+              [ngClass]="
+                deviceData.status?.compressor === 'ON' ? 'text-success' : 'text-text-muted'
+              "
+            >
+              {{ deviceData.status?.compressor || '—' }}
+            </h3>
+          </div>
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-xl text-lg"
+            [ngClass]="
+              deviceData.status?.compressor === 'ON'
+                ? 'bg-success/10 text-success'
+                : 'bg-surface-hover text-text-muted'
+            "
+          >
+            ⏻
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-text-muted">
+          Frequency:
+          @if (deviceData.status?.compressorFrequency != null) {
+            {{ deviceData.status.compressorFrequency | number: '1.0-1' }} Hz
+          } @else {
+            — Hz
+          }
+        </p>
+      </div>
+      <div
+        class="rounded-2xl border border-border bg-surface p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md"
+      >
+        <div class="flex items-start justify-between">
+          <div>
+            <p class="text-sm font-medium text-text-muted">Power</p>
+            <h3 class="mt-3 text-3xl font-bold tracking-tight text-text">
+              @if (deviceData.status?.power != null) {
+                {{ deviceData.status.power | number: '1.0-0' }}
+                <span class="ml-1 text-lg font-medium text-text-muted"> W </span>
+              } @else {
+                —
+              }
+            </h3>
+          </div>
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-xl bg-warning/10 text-lg text-warning"
+          >
+            ⚡
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-text-muted">
+          Current:
+          @if (deviceData.status?.current != null) {
+            {{ deviceData.status.current | number: '1.1-1' }} A
+          } @else {
+            — A
+          }
+        </p>
+      </div>
+      <div class="rounded-2xl border border-border bg-surface p-5 shadow-sm">
+        <p class="text-sm font-medium text-text-muted">Last updated</p>
+        <h3 class="mt-3 text-xl font-bold tracking-tight text-text">
+          @if (deviceData.lastUpdated) {
+            {{ deviceData.lastUpdated | date: 'MMM d, HH:mm' }}
+          } @else {
+            —
+          }
+        </h3>
+        <p class="mt-3 text-xs text-text-muted">Latest device reading</p>
+      </div>
+    </section>
+    <section class="grid gap-6 xl:grid-cols-3">
+      <div class="rounded-2xl border border-border bg-surface p-6 shadow-sm xl:col-span-2">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-semibold text-text">Internal temperatures</h2>
+            <p class="mt-0.5 text-xs text-text-muted">Evaporator, condenser, and discharge</p>
+          </div>
+          <span class="text-[11px] uppercase tracking-widest text-text-muted"> Live </span>
+        </div>
+        @if (
+          !deviceData.status?.internalTemperature?.evaporator &&
+          !deviceData.status?.internalTemperature?.condenser &&
+          !deviceData.status?.internalTemperature?.discharge
+        ) {
+          <div class="mt-6 rounded-xl bg-surface-hover px-4 py-8 text-center">
+            <p class="text-sm text-text-muted">No internal sensor data available.</p>
+          </div>
+        } @else {
+          <div class="mt-6 grid gap-4 md:grid-cols-3">
+            <div class="rounded-xl border border-border bg-background p-4">
+              <p class="text-xs font-medium uppercase tracking-wider text-text-muted">Evaporator</p>
+              <p class="mt-3 text-2xl font-bold text-text">
+                {{
+                  deviceData.status?.internalTemperature?.evaporator?.value != null
+                    ? (deviceData.status.internalTemperature.evaporator.value | number: '1.1-1')
+                    : '—'
+                }}
+                @if (deviceData.status?.internalTemperature?.evaporator?.value != null) {
+                  <span class="text-sm font-medium text-text-muted"> °C </span>
+                }
+              </p>
+              <p class="mt-2 text-[11px] text-text-muted">
+                {{
+                  deviceData.status?.internalTemperature?.evaporator?.timestamp
+                    ? (deviceData.status.internalTemperature.evaporator.timestamp
+                      | date: 'MMM d, HH:mm')
+                    : 'No reading'
+                }}
+              </p>
+            </div>
+            <div class="rounded-xl border border-border bg-background p-4">
+              <p class="text-xs font-medium uppercase tracking-wider text-text-muted">Condenser</p>
+              <p class="mt-3 text-2xl font-bold text-text">
+                {{
+                  deviceData.status?.internalTemperature?.condenser?.value != null
+                    ? (deviceData.status.internalTemperature.condenser.value | number: '1.1-1')
+                    : '—'
+                }}
+                @if (deviceData.status?.internalTemperature?.condenser?.value != null) {
+                  <span class="text-sm font-medium text-text-muted"> °C </span>
+                }
+              </p>
+              <p class="mt-2 text-[11px] text-text-muted">
+                {{
+                  deviceData.status?.internalTemperature?.condenser?.timestamp
+                    ? (deviceData.status.internalTemperature.condenser.timestamp
+                      | date: 'MMM d, HH:mm')
+                    : 'No reading'
+                }}
+              </p>
+            </div>
+            <div class="rounded-xl border border-border bg-background p-4">
+              <p class="text-xs font-medium uppercase tracking-wider text-text-muted">Discharge</p>
+              <p class="mt-3 text-2xl font-bold text-text">
+                {{
+                  deviceData.status?.internalTemperature?.discharge?.value != null
+                    ? (deviceData.status.internalTemperature.discharge.value | number: '1.1-1')
+                    : '—'
+                }}
+                @if (deviceData.status?.internalTemperature?.discharge?.value != null) {
+                  <span class="text-sm font-medium text-text-muted"> °C </span>
+                }
+              </p>
+              <p class="mt-2 text-[11px] text-text-muted">
+                {{
+                  deviceData.status?.internalTemperature?.discharge?.timestamp
+                    ? (deviceData.status.internalTemperature.discharge.timestamp
+                      | date: 'MMM d, HH:mm')
+                    : 'No reading'
+                }}
+              </p>
+            </div>
+          </div>
+        }
+      </div>
+      <div class="rounded-2xl border border-border bg-surface p-6 shadow-sm">
+        <div>
+          <h2 class="text-base font-semibold text-text">Latest error</h2>
+          <p class="mt-0.5 text-xs text-text-muted">Most recent fault reported</p>
+        </div>
+        @if (deviceData.status?.lastError) {
+          <div class="mt-6 rounded-xl border border-danger/20 bg-danger/5 p-4">
+            <div class="flex items-center justify-between">
+              <p class="text-lg font-bold text-danger">{{ deviceData.status.lastError.code }}</p>
+              <span class="h-2 w-2 rounded-full bg-danger"></span>
+            </div>
+            <p class="mt-2 text-xs text-text-muted">
+              {{ deviceData.status.lastError.timestamp | date: 'MMM d, y · HH:mm' }}
+            </p>
+          </div>
+        } @else {
+          <div
+            class="mt-6 flex flex-col items-center justify-center rounded-xl bg-success/5 px-4 py-8 text-center"
+          >
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-success/10 text-success"
+            >
+              ✓
+            </div>
+            <p class="mt-3 text-sm font-medium text-text">All clear</p>
+            <p class="mt-1 text-xs text-text-muted">No faults reported</p>
+          </div>
+        }
+      </div>
+    </section>
+    <section class="">
+      <div
+        class="relative overflow-hidden rounded-2xl border border-brand/20 bg-brand/5 p-6 xl:col-span-2"
+      >
+        <div class="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-brand/10 blur-2xl"></div>
+        <div class="relative">
+          <div class="flex items-center gap-3">
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-background shadow-sm"
+            >
+              ✦
+            </div>
+            <div>
+              <h2 class="font-semibold text-text">Device Summary</h2>
+              <p class="text-xs text-text-muted">AI analysis based on current readings</p>
+            </div>
+          </div>
+          @if (!output) {
+            <div class="mt-6">
+              <!-- <p class="text-sm text-text-muted">No AI analysis available yet.</p> -->
+              <div class="flex min-h-30 flex-col items-center justify-center text-center">
+                <span class="mb-2 text-sm text-text-muted">Coming Soon</span>
+
+                <p class="text-lg font-medium text-text">This feature will be available soon</p>
+              </div>
+            </div>
+          } @else {
+            <div class="mt-5">
+              <p class="text-sm leading-6 text-text-muted">{{ output }}</p>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+    <section class="rounded-2xl border border-border bg-surface p-6 shadow-sm">
+      <div>
+        <h2 class="text-base font-semibold text-text">Device information</h2>
+        <p class="mt-0.5 text-xs text-text-muted">Basic information about this device</p>
+      </div>
+      <div class="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <p class="text-xs text-text-muted">Name</p>
+          <p class="mt-1 text-sm font-medium text-text">{{ deviceData.device?.name || '—' }}</p>
+        </div>
+        <div>
+          <p class="text-xs text-text-muted">Model</p>
+          <p class="mt-1 text-sm font-medium text-text">{{ deviceData.device?.model || '—' }}</p>
+        </div>
+        <div>
+          <p class="text-xs text-text-muted">Serial number</p>
+          <p class="mt-1 text-sm font-medium text-text">
+            {{ deviceData.device?.serialNumber || '—' }}
+          </p>
+        </div>
+        <div>
+          <p class="text-xs text-text-muted">Installation date</p>
+          <p class="mt-1 text-sm font-medium text-text">
+            {{
+              deviceData.device?.installationDate
+                ? (deviceData.device.installationDate | date: 'MMM d, y')
+                : '—'
+            }}
+          </p>
+        </div>
+        <div>
+          <p class="text-xs text-text-muted">Location</p>
+          <p class="mt-1 text-sm font-medium text-text">{{ deviceData.device?.location || '—' }}</p>
+        </div>
+        <div>
+          <p class="text-xs text-text-muted">Created</p>
+          <p class="mt-1 text-sm font-medium capitalize text-text">
+            {{ deviceData.device?.createdAt | date: 'MMM d, y' }}
+          </p>
+        </div>
+        <div>
+          <p class="text-xs text-text-muted">Owner</p>
+          <p class="mt-1 text-sm font-medium text-text">{{ deviceData.owner?.name || '—' }}</p>
+        </div>
+        <div>
+          <p class="text-xs text-text-muted">Owner email</p>
+          <p class="mt-1 truncate text-sm font-medium text-text">
+            {{ deviceData.owner?.email || '—' }}
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+}
+@if (usersWindow) {
+  <app-invite-users (close)="closeInviteUsers()"></app-invite-users>
+}

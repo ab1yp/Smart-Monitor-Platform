@@ -1,0 +1,385 @@
+<div class="min-h-screen bg-background text-text selection:bg-brand selection:text-background">
+  <header class="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+      <a routerLink="/" class="text-sm font-bold tracking-[0.18em] text-text uppercase">SMP</a>
+
+      <nav class="hidden items-center gap-6 text-sm text-text-muted md:flex">
+        <a href="#overview" class="transition hover:text-text">Overview</a>
+        <a href="#capabilities" class="transition hover:text-text">Capabilities</a>
+        <a href="#architecture" class="transition hover:text-text">Architecture</a>
+        <a href="#telemetry" class="transition hover:text-text">Telemetry</a>
+        <a href="#roadmap" class="transition hover:text-text">Roadmap</a>
+      </nav>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button
+          type="button"
+          (click)="toggleTheme()"
+          class="rounded-lg border border-border bg-surface px-4 py-2 text-sm font-semibold text-text transition hover:bg-surface-hover"
+          aria-label="Toggle theme"
+        >
+          ☽
+        </button>
+
+        <a
+          routerLink="/ml/main"
+          class="rounded-lg border border-border bg-surface px-4 py-2 text-sm font-semibold text-text transition hover:bg-surface-hover"
+        >
+          Open platform
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section id="overview" class="relative overflow-hidden border-b border-border">
+      <div class="absolute inset-x-0 top-0 h-px bg-brand/20"></div>
+
+      <div
+        class="mx-auto grid max-w-7xl items-center gap-14 px-6 py-20 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:py-28"
+      >
+        <div>
+          <div
+            class="inline-flex items-center rounded-full border border-border bg-surface px-3 py-1.5 text-[11px] font-semibold tracking-[0.18em] text-text-muted uppercase"
+          >
+            Smart Monitor Platform
+          </div>
+
+          <h1
+            class="mt-6 max-w-4xl text-5xl font-bold tracking-[-0.045em] text-text sm:text-6xl lg:text-7xl"
+          >
+            Monitor how every Split AC device behaves.
+          </h1>
+
+          <p class="mt-7 max-w-2xl text-base leading-7 text-text-muted sm:text-lg">
+            SMP is a full-stack monitoring platform for Split AC systems. It connects device
+            management, access control, current status, and structured telemetry in one system.
+          </p>
+
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="#capabilities"
+              class="inline-flex items-center justify-center rounded-lg border border-border bg-surface px-5 py-3 text-sm font-semibold text-text transition hover:bg-surface-hover"
+            >
+              Explore the platform
+            </a>
+            <a
+              routerLink="/ml/main"
+              class="inline-flex items-center justify-center rounded-lg bg-text px-5 py-3 text-sm font-semibold text-background transition hover:opacity-90"
+            >
+              Open dashboard
+            </a>
+          </div>
+
+          <div class="mt-10 grid max-w-2xl grid-cols-2 gap-3 sm:grid-cols-4">
+            <div class="border-l border-border pl-3">
+              <p class="text-2xl font-bold text-text">100</p>
+              <p class="mt-1 text-xs text-text-muted">Demo devices</p>
+            </div>
+            <div class="border-l border-border pl-3">
+              <p class="text-2xl font-bold text-text">30 days</p>
+              <p class="mt-1 text-xs text-text-muted">Seeded history</p>
+            </div>
+            <div class="border-l border-border pl-3">
+              <p class="text-2xl font-bold text-text">15 min</p>
+              <p class="mt-1 text-xs text-text-muted">Sampling interval</p>
+            </div>
+            <div class="border-l border-border pl-3">
+              <p class="text-2xl font-bold text-text">10+</p>
+              <p class="mt-1 text-xs text-text-muted">Telemetry signals</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="rounded-3xl border border-border bg-surface p-4 shadow-sm">
+            <div class="rounded-2xl border border-border bg-background p-5">
+              <div class="flex items-center justify-between border-b border-border pb-4">
+                <div>
+                  <p class="text-xs uppercase tracking-widest text-text-muted">Device status</p>
+                  <h2 class="mt-1 text-lg font-semibold text-text">Split AC 001</h2>
+                </div>
+
+                <span
+                  class="inline-flex items-center gap-2 rounded-full bg-success/10 px-2.5 py-1 text-[11px] font-semibold text-success"
+                >
+                  <span class="h-1.5 w-1.5 rounded-full bg-success"></span>
+                  Online
+                </span>
+              </div>
+
+              <div class="grid gap-3 pt-4 sm:grid-cols-2">
+                <div class="rounded-xl border border-border p-4">
+                  <p class="text-xs text-text-muted">Room temperature</p>
+                  <p class="mt-2 text-2xl font-bold text-text">21.2°C</p>
+                  <p class="mt-1 text-xs text-text-muted">Setpoint 24°C</p>
+                </div>
+
+                <div class="rounded-xl border border-border p-4">
+                  <p class="text-xs text-text-muted">Compressor</p>
+                  <p class="mt-2 text-2xl font-bold text-text">OFF</p>
+                  <p class="mt-1 text-xs text-text-muted">Frequency 0 Hz</p>
+                </div>
+
+                <div class="rounded-xl border border-border p-4">
+                  <p class="text-xs text-text-muted">Power</p>
+                  <p class="mt-2 text-2xl font-bold text-text">46 W</p>
+                  <p class="mt-1 text-xs text-text-muted">Current 0.25 A</p>
+                </div>
+
+                <div class="rounded-xl border border-border p-4">
+                  <p class="text-xs text-text-muted">Latest error</p>
+                  <p class="mt-2 text-2xl font-bold text-success">None</p>
+                  <p class="mt-1 text-xs text-text-muted">No fault reported</p>
+                </div>
+              </div>
+
+              <div class="mt-3 rounded-xl border border-border p-4">
+                <div class="flex items-center justify-between">
+                  <p class="text-xs text-text-muted">Internal temperatures</p>
+                  <span class="text-[10px] uppercase tracking-widest text-text-muted">Snapshot</span>
+                </div>
+
+                <div class="mt-4 grid grid-cols-3 gap-3 text-center">
+                  <div>
+                    <p class="text-xs text-text-muted">Evaporator</p>
+                    <p class="mt-1 font-semibold text-text">18.4°C</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-text-muted">Condenser</p>
+                    <p class="mt-1 font-semibold text-text">28.0°C</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-text-muted">Discharge</p>
+                    <p class="mt-1 font-semibold text-text">31.7°C</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Capabilities -->
+    <section id="capabilities" class="border-b border-border">
+      <div class="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+        <div class="max-w-3xl">
+          <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-text-muted">
+            01 · Capabilities
+          </p>
+          <h2 class="mt-4 text-3xl font-bold tracking-tight text-text sm:text-4xl">
+            The current product focuses on the fundamentals of reliable monitoring.
+          </h2>
+          <p class="mt-5 text-sm leading-6 text-text-muted sm:text-base">
+            Instead of trying to solve every maintenance problem at once, SMP starts with a clean
+            device model, structured telemetry, current-state snapshots, and server-side access control.
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-4 md:grid-cols-2">
+          @for (item of capabilities; track item.number) {
+            <article class="rounded-2xl border border-border bg-surface p-6">
+              <div class="flex items-center gap-3">
+                <span
+                  class="flex h-8 w-8 items-center justify-center rounded-lg bg-background text-xs font-bold text-text"
+                >
+                  {{ item.number }}
+                </span>
+                <h3 class="font-semibold text-text">{{ item.title }}</h3>
+              </div>
+              <p class="mt-4 text-sm leading-6 text-text-muted">{{ item.description }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture -->
+    <section id="architecture" class="border-b border-border">
+      <div class="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+        <div class="grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:items-start">
+          <div>
+            <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-text-muted">
+              02 · Architecture
+            </p>
+            <h2 class="mt-4 text-3xl font-bold tracking-tight text-text sm:text-4xl">
+              A separated full-stack architecture built for extension.
+            </h2>
+            <p class="mt-5 text-sm leading-6 text-text-muted">
+              The application separates presentation, API logic, authorization, persistence, and
+              telemetry data so the system can grow without coupling the whole product together.
+            </p>
+          </div>
+
+          <div class="grid gap-4">
+            @for (item of architecture; track item.title) {
+              <article class="rounded-2xl border border-border bg-surface p-6">
+                <h3 class="font-semibold text-text">{{ item.title }}</h3>
+                <p class="mt-3 text-sm leading-6 text-text-muted">{{ item.description }}</p>
+              </article>
+            }
+          </div>
+        </div>
+
+        <div class="mt-10 overflow-x-auto rounded-2xl border border-border bg-surface p-6">
+          <pre class="text-xs leading-6 text-text"><code>Angular 21
+  ├── Components / Layouts
+  ├── Services / Guards / Interceptors
+  └── Typed Interfaces
+       │
+       ▼
+Express 5 / Node.js
+  ├── Authentication
+  ├── Authorization
+  ├── Device APIs
+  ├── User APIs
+  └── Member APIs
+       │
+       ▼
+MongoDB / Mongoose
+  ├── Users
+  ├── Devices
+  ├── DeviceMembers
+  ├── Status snapshots
+  └── Time-series measurements</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Telemetry -->
+    <section id="telemetry" class="border-b border-border">
+      <div class="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+        <div class="grid gap-12 lg:grid-cols-[1fr_.95fr] lg:items-start">
+          <div>
+            <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-text-muted">
+              03 · Telemetry
+            </p>
+            <h2 class="mt-4 text-3xl font-bold tracking-tight text-text sm:text-4xl">
+              Configuration and measurements stay separate.
+            </h2>
+            <p class="mt-5 text-sm leading-6 text-text-muted">
+              Device identity belongs to the device document. Time-series readings are stored in
+              dedicated collections using deviceId and timestamp, while the latest operational state is
+              exposed through a compact status snapshot.
+            </p>
+          </div>
+
+          <div class="rounded-2xl border border-border bg-surface p-6">
+            <div class="grid gap-2 sm:grid-cols-2">
+              @for (item of measurements; track item) {
+                <div class="flex items-center gap-3 rounded-xl border border-border bg-background p-3">
+                  <span class="h-2 w-2 rounded-full bg-brand"></span>
+                  <span class="text-sm text-text">{{ item }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Access control -->
+    <section class="border-b border-border">
+      <div class="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+        <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+          <div>
+            <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-text-muted">
+              04 · Access control
+            </p>
+            <h2 class="mt-4 text-3xl font-bold tracking-tight text-text sm:text-4xl">
+              Authorization is enforced on the server, not only in the UI.
+            </h2>
+            <p class="mt-5 text-sm leading-6 text-text-muted">
+              Each device can have multiple members with owner, admin, or member access. Protected
+              routes verify the authenticated user before device operations are allowed.
+            </p>
+          </div>
+
+          <div class="grid gap-3 sm:grid-cols-3">
+            <div class="rounded-2xl border border-border bg-surface p-6">
+              <p class="text-xs uppercase tracking-widest text-text-muted">Owner</p>
+              <p class="mt-3 text-sm leading-6 text-text-muted">Full device control and membership management.</p>
+            </div>
+            <div class="rounded-2xl border border-border bg-surface p-6">
+              <p class="text-xs uppercase tracking-widest text-text-muted">Admin</p>
+              <p class="mt-3 text-sm leading-6 text-text-muted">Operational access with elevated membership permissions.</p>
+            </div>
+            <div class="rounded-2xl border border-border bg-surface p-6">
+              <p class="text-xs uppercase tracking-widest text-text-muted">Member</p>
+              <p class="mt-3 text-sm leading-6 text-text-muted">Standard access to the device workspace.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section id="roadmap" class="border-b border-border">
+      <div class="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+        <div class="grid gap-12 lg:grid-cols-[1fr_1fr]">
+          <div>
+            <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-text-muted">
+              05 · Roadmap
+            </p>
+            <h2 class="mt-4 text-3xl font-bold tracking-tight text-text sm:text-4xl">
+              The current system is the foundation, not the final layer.
+            </h2>
+            <p class="mt-5 text-sm leading-6 text-text-muted">
+              The architecture is designed so richer analytics, alerts, physical sensor inputs, and
+              maintenance intelligence can be added without replacing the core monitoring model.
+            </p>
+          </div>
+
+          <div class="grid gap-3 sm:grid-cols-2">
+            @for (item of roadmap; track item) {
+              <div class="flex items-start gap-3 rounded-xl border border-border bg-surface p-4">
+                <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand"></span>
+                <p class="text-sm leading-6 text-text">{{ item }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section>
+      <div class="mx-auto max-w-5xl px-6 py-24 text-center lg:px-8">
+        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-text-muted">
+          Built as a full-stack engineering project
+        </p>
+
+        <h2
+          class="mx-auto mt-5 max-w-3xl text-4xl font-bold tracking-[-0.03em] text-text sm:text-5xl"
+        >
+          From device identity to a structured operational picture.
+        </h2>
+
+        <p class="mx-auto mt-6 max-w-2xl text-sm leading-6 text-text-muted sm:text-base">
+          SMP focuses on a practical monitoring foundation: manage the device, control access, capture
+          telemetry, expose its latest state, and keep the history ready for deeper analysis.
+        </p>
+
+        <div class="mt-9">
+          <a
+            routerLink="/ml/main"
+            class="inline-flex rounded-lg bg-text px-5 py-3 text-sm font-semibold text-background transition hover:opacity-90"
+          >
+            Open platform
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-border">
+    <div
+      class="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-6 text-xs text-text-muted sm:flex-row sm:items-center sm:justify-between lg:px-8"
+    >
+      <span>SMP — Smart Monitor Platform</span>
+      <span>Split AC monitoring · Full-stack architecture · Structured telemetry</span>
+    </div>
+  </footer>
+</div>
